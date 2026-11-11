@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Play, 
-  Star, 
-  MessageSquare, 
-  Share2, 
+  LogIn, 
+  UserCheck, 
+  FolderSync, 
+  UploadCloud, 
+  Video, 
   Globe, 
   Clock,
   X,
@@ -12,37 +14,59 @@ import {
 
 const DEMO_GUIDES = [
   {
-    id: 'google-review',
-    badge: 'Step 1',
-    title: 'Google Review',
-    subtitle: 'Submission Guide',
-    duration: '0:34',
-    videoSrc: '/google-review-opt.mp4',
-    icon: Star,
-    iconBg: 'bg-amber-50 text-amber-500 border border-amber-200/80',
-    description: 'Quick walkthrough on posting your verified review & rating.'
+    id: 'lms-mentorled',
+    title: 'LMS Login Guide',
+    subtitle: 'Mentor-LED & Blended',
+    subtitleHighlight: 'bg-emerald-500 text-white font-extrabold shadow-sm ring-2 ring-emerald-300/60',
+    duration: '1:32',
+    videoSrc: '/how-login-lms-mentorled-opt.mp4',
+    icon: LogIn,
+    iconBg: 'bg-emerald-50 text-emerald-600 border border-emerald-200/80',
+    description: 'Complete walkthrough on logging into the LMS portal specifically for Mentor-LED and Blended batch students.'
   },
   {
-    id: 'reddit-post',
-    badge: 'Step 2',
-    title: 'Reddit Post',
-    subtitle: 'Discussion Guide',
-    duration: '0:48',
-    videoSrc: '/reddit-post-opt.mp4',
-    icon: MessageSquare,
-    iconBg: 'bg-orange-50 text-orange-500 border border-orange-200/80',
-    description: 'Guidelines on sharing your experience and discussion on Reddit.'
+    id: 'lms-selfpaced',
+    title: 'LMS Login Guide',
+    subtitle: 'Self-Paced Track',
+    subtitleHighlight: 'bg-blue-600 text-white font-extrabold shadow-sm ring-2 ring-blue-300/60',
+    duration: '1:41',
+    videoSrc: '/how-login-lms-selfpaced-opt.mp4',
+    icon: UserCheck,
+    iconBg: 'bg-blue-50 text-blue-600 border border-blue-200/80',
+    description: 'Step-by-step instructions on accessing and navigating the LMS specifically for Self-Paced learners.'
   },
   {
-    id: 'linkedin-tag',
-    badge: 'Step 3',
-    title: 'LinkedIn Tag',
-    subtitle: 'Certificate Guide',
-    duration: '1:09',
-    videoSrc: '/linkedin-tag-opt.mp4',
-    icon: Share2,
-    iconBg: 'bg-blue-50 text-blue-500 border border-blue-200/80',
-    description: 'How to tag Launched Global and announce your certificate.'
+    id: 'download-upload-projects',
+    title: 'Project Resources',
+    subtitle: 'Download & Upload',
+    subtitleHighlight: 'bg-amber-500 text-white font-extrabold shadow-sm ring-2 ring-amber-300/60',
+    duration: '1:26',
+    videoSrc: '/how-download-upload-projects-opt.mp4',
+    icon: FolderSync,
+    iconBg: 'bg-amber-50 text-amber-600 border border-amber-200/80',
+    description: 'Learn how to properly download starter project files and upload your finished work.'
+  },
+  {
+    id: 'submit-minor-project',
+    title: 'Submission of Minor Project',
+    subtitle: 'Mentor-LED & Blended',
+    subtitleHighlight: 'bg-emerald-500 text-white font-extrabold shadow-sm ring-2 ring-emerald-300/60',
+    duration: '1:23',
+    videoSrc: '/how-submit-minor-project-opt.mp4',
+    icon: UploadCloud,
+    iconBg: 'bg-indigo-50 text-indigo-600 border border-indigo-200/80',
+    description: 'Guidance on verifying, preparing, and submitting your minor project deliverables.'
+  },
+  {
+    id: 'shoot-final-project-video',
+    title: 'Shoot Final Project Demo',
+    subtitle: 'Video Recording Guide',
+    subtitleHighlight: 'bg-rose-500 text-white font-extrabold shadow-sm ring-2 ring-rose-300/60',
+    duration: '3:04',
+    videoSrc: '/how-shoot-final-project-video-opt.mp4',
+    icon: Video,
+    iconBg: 'bg-rose-50 text-rose-600 border border-rose-200/80',
+    description: 'Best practices for recording and presenting your final project demonstration video.'
   }
 ];
 
@@ -110,7 +134,7 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto p-5 sm:px-6 sm:py-14 flex-1 w-full flex flex-col justify-start sm:justify-center">
+      <main className="max-w-6xl mx-auto p-5 sm:px-6 sm:py-12 flex-1 w-full flex flex-col justify-start">
         {/* Minimal Hero Header */}
         <div className="text-center max-w-xl mx-auto mb-6 sm:mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-semibold text-slate-600 mb-2.5 sm:mb-4 shadow-2xs">
@@ -118,15 +142,15 @@ export default function App() {
             <span>Student Demonstration Videos</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-            Follow The Steps Below
+            Follow The Videos Below
           </h1>
           <p className="mt-2 text-xs sm:text-base text-slate-500 max-w-md mx-auto">
             Click on any guide below to play the demo video directly.
           </p>
         </div>
 
-        {/* 3 Clean Minimal Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+        {/* 5 Clean Minimal Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {DEMO_GUIDES.map((guide) => {
             const IconComponent = guide.icon;
 
@@ -136,11 +160,8 @@ export default function App() {
                 className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group hover:border-[#E85749]/60"
               >
                 <div>
-                  {/* Step Badge & Duration */}
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-[#E85749]/10 text-[#E85749]">
-                      {guide.badge}
-                    </span>
+                  {/* Duration Header (Step badge removed) */}
+                  <div className="flex items-center justify-end mb-4">
                     <span className="text-xs font-medium text-slate-500 flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200/80">
                       <Clock className="w-3.5 h-3.5 text-slate-400" />
                       {guide.duration}
@@ -148,7 +169,7 @@ export default function App() {
                   </div>
 
                   {/* Icon & Title */}
-                  <div className="flex items-center gap-3.5 mb-2.5">
+                  <div className="flex items-center gap-3.5 mb-3">
                     <div className={`p-2.5 sm:p-3 rounded-xl ${guide.iconBg} flex-shrink-0 group-hover:scale-105 transition-transform`}>
                       <IconComponent className="w-5 h-5" />
                     </div>
@@ -156,7 +177,13 @@ export default function App() {
                       <h3 className="text-base font-bold text-slate-900 group-hover:text-[#E85749] transition-colors leading-tight">
                         {guide.title}
                       </h3>
-                      <p className="text-xs text-slate-500 truncate">{guide.subtitle}</p>
+                      {guide.subtitleHighlight ? (
+                        <span className={`inline-block text-[13px] sm:text-sm px-2.5 py-1 rounded-lg mt-1.5 tracking-normal ${guide.subtitleHighlight}`}>
+                          {guide.subtitle}
+                        </span>
+                      ) : (
+                        <p className="text-xs sm:text-[13px] text-slate-500 truncate mt-1">{guide.subtitle}</p>
+                      )}
                     </div>
                   </div>
 
@@ -195,9 +222,7 @@ export default function App() {
             {/* Modal Top Bar */}
             <div className="px-4 sm:px-6 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2.5 min-w-0">
-                <span className="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#E85749] text-white flex-shrink-0">
-                  {playingVideo.badge}
-                </span>
+                <span className="w-2 h-2 rounded-full bg-[#E85749] flex-shrink-0 animate-pulse" />
                 <h3 className="text-sm sm:text-base font-bold text-white truncate">
                   {playingVideo.title} — {playingVideo.subtitle}
                 </h3>
