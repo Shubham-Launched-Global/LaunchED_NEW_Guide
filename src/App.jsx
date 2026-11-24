@@ -533,10 +533,10 @@ export default function App() {
                 )}
               </div>
 
-              {/* Step-by-Step Text Walkthrough & Transcription Section */}
+              {/* Step-by-Step Text Walkthrough & Transcription Section with Clean Breathing Room */}
               {playingVideo.steps && (
-                <div className="p-4 sm:p-6 bg-slate-900/95 border-t border-slate-800/80 flex-1">
-                  <div className="flex items-center justify-between mb-3.5 gap-2">
+                <div className="mt-3 sm:mt-5 p-4 sm:p-6 bg-slate-900 border-t border-slate-800/90 flex-1 rounded-t-2xl sm:rounded-t-3xl shadow-lg">
+                  <div className="flex items-center justify-between mb-4 gap-2">
                     <div className="flex items-center gap-2">
                       <ListOrdered className="w-4 h-4 text-[#E85749]" />
                       <h4 className="text-xs sm:text-sm font-bold text-white tracking-wide uppercase">
@@ -552,13 +552,13 @@ export default function App() {
                     {playingVideo.steps.map((st) => (
                       <div 
                         key={st.step}
-                        className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 hover:border-[#E85749]/50 transition-colors flex gap-3 group"
+                        className="bg-slate-950/90 border border-slate-800/90 rounded-xl p-3.5 sm:p-4 hover:border-[#E85749]/50 transition-colors flex gap-3 group shadow-xs"
                       >
                         <div className="w-7 h-7 rounded-lg bg-[#E85749]/15 border border-[#E85749]/30 text-[#E85749] font-extrabold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-[#E85749] group-hover:text-white transition-colors mt-0.5">
                           {st.step}
                         </div>
                         <div className="min-w-0">
-                          <h5 className="text-[13px] sm:text-sm font-bold text-slate-200 group-hover:text-white transition-colors leading-snug mb-1">
+                          <h5 className="text-[13px] sm:text-sm font-bold text-slate-100 group-hover:text-white transition-colors leading-snug mb-1">
                             {st.title}
                           </h5>
                           <p className="text-xs text-slate-400 leading-relaxed">
