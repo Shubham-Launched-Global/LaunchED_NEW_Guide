@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Play, 
   LogIn, 
@@ -10,8 +10,10 @@ import {
   Clock,
   X,
   Volume2,
+  VolumeX,
   Copy,
-  Check
+  Check,
+  ListOrdered
 } from 'lucide-react';
 
 const DEMO_GUIDES = [
@@ -22,9 +24,32 @@ const DEMO_GUIDES = [
     subtitleHighlight: 'bg-emerald-500 text-white font-extrabold shadow-sm ring-2 ring-emerald-300/60',
     duration: '1:32',
     videoSrc: '/how-login-lms-mentorled-opt.mp4',
+    subtitleSrc: '/subtitles/lms-mentorled.vtt',
     icon: LogIn,
     iconBg: 'bg-emerald-50 text-emerald-600 border border-emerald-200/80',
-    description: 'Complete walkthrough on logging into the LMS portal specifically for Mentor-LED and Blended batch students.'
+    description: 'Complete walkthrough on logging into the LMS portal specifically for Mentor-LED and Blended batch students.',
+    steps: [
+      {
+        step: 1,
+        title: 'Check Your Registered Email Inbox',
+        detail: 'Look for an email with subject "Welcome to Launched Global" sent from learn@launchedglobal.in. (Be sure to check Spam/Junk folder if not in Inbox).'
+      },
+      {
+        step: 2,
+        title: 'Open "Login Here" Portal Link',
+        detail: 'Inside the welcome email, click on the official "Login Here" link to access the LMS portal interface.'
+      },
+      {
+        step: 3,
+        title: 'Enter Email & Receive Login OTP',
+        detail: 'Select the "Email" option, enter your registered email ID, and submit to request your one-time verification password / OTP.'
+      },
+      {
+        step: 4,
+        title: 'Authenticate & Access Dashboard',
+        detail: 'Check your email for the OTP, enter it into the LMS portal, and you will be directed straight to your enrolled courses & live schedule.'
+      }
+    ]
   },
   {
     id: 'lms-login-self-paced',
@@ -33,9 +58,32 @@ const DEMO_GUIDES = [
     subtitleHighlight: 'bg-blue-600 text-white font-extrabold shadow-sm ring-2 ring-blue-300/60',
     duration: '1:41',
     videoSrc: '/how-login-lms-selfpaced-opt.mp4',
+    subtitleSrc: '/subtitles/lms-selfpaced.vtt',
     icon: UserCheck,
     iconBg: 'bg-blue-50 text-blue-600 border border-blue-200/80',
-    description: 'Step-by-step instructions on accessing and navigating the LMS specifically for Self-Paced learners.'
+    description: 'Step-by-step instructions on accessing and navigating the LMS specifically for Self-Paced learners.',
+    steps: [
+      {
+        step: 1,
+        title: 'Find Your LMS Credentials Email',
+        detail: 'Upon registration, locate your "Welcome to Launched Global" email containing your portal login URL and student access ID.'
+      },
+      {
+        step: 2,
+        title: 'Navigate to LMS Login Page',
+        detail: 'Click the provided login URL and choose your login method (Registered Email / Password).'
+      },
+      {
+        step: 3,
+        title: 'Access Self-Paced Learning Modules',
+        detail: 'Once logged in, navigate to "My Courses" to access pre-recorded lecture modules, quizzes, and project milestones.'
+      },
+      {
+        step: 4,
+        title: 'Track Progress Towards Certificate',
+        detail: 'Complete each video module sequentially; completion unlocks your minor/major projects and final internship completion certificate.'
+      }
+    ]
   },
   {
     id: 'project-resources-download-upload',
@@ -44,9 +92,32 @@ const DEMO_GUIDES = [
     subtitleHighlight: 'bg-amber-500 text-white font-extrabold shadow-sm ring-2 ring-amber-300/60',
     duration: '1:26',
     videoSrc: '/how-download-upload-projects-opt.mp4',
+    subtitleSrc: '/subtitles/projects.vtt',
     icon: FolderSync,
     iconBg: 'bg-amber-50 text-amber-600 border border-amber-200/80',
-    description: 'Learn how to properly download starter project files and upload your finished work.'
+    description: 'Learn how to properly download starter project files and upload your finished work.',
+    steps: [
+      {
+        step: 1,
+        title: 'Open Project Notification Email',
+        detail: 'Open the project email sent to your registered mail ID by Launched Global containing your project resources link.'
+      },
+      {
+        step: 2,
+        title: 'Access Project Material Document',
+        detail: 'Scroll down to the attached project resource document/Google Drive link to view starter code and task guidelines.'
+      },
+      {
+        step: 3,
+        title: 'Download Project Starter Files',
+        detail: 'Download all project zip/asset files to your local system and extract them into your preferred working folder.'
+      },
+      {
+        step: 4,
+        title: 'Complete and Upload Finished Project',
+        detail: 'Implement your solution and upload your finished files/repo link as demonstrated. Contact support if you face any issues.'
+      }
+    ]
   },
   {
     id: 'submission-of-minor-project',
@@ -55,9 +126,32 @@ const DEMO_GUIDES = [
     subtitleHighlight: 'bg-emerald-500 text-white font-extrabold shadow-sm ring-2 ring-emerald-300/60',
     duration: '1:23',
     videoSrc: '/how-submit-minor-project-opt.mp4',
+    subtitleSrc: '/subtitles/minor.vtt',
     icon: UploadCloud,
     iconBg: 'bg-indigo-50 text-indigo-600 border border-indigo-200/80',
-    description: 'Guidance on verifying, preparing, and submitting your minor project deliverables.'
+    description: 'Guidance on verifying, preparing, and submitting your minor project deliverables.',
+    steps: [
+      {
+        step: 1,
+        title: 'Join Your Google Classroom',
+        detail: 'Open the invitation link sent to your registered email or join code to enroll in your batch Google Classroom.'
+      },
+      {
+        step: 2,
+        title: 'Locate Minor Project Assignment',
+        detail: 'Under the "Classwork" tab, find the Minor Project Submission assignment and review all submission criteria.'
+      },
+      {
+        step: 3,
+        title: 'Attach Deliverables & GitHub Link',
+        detail: 'Click "Add or create" to upload your project source files (ZIP/PDF) or paste your verified GitHub repository link.'
+      },
+      {
+        step: 4,
+        title: 'Click "Turn In / Hand In"',
+        detail: 'Confirm your attached files and press "Turn In" to officially mark your minor project as submitted for mentor grading.'
+      }
+    ]
   },
   {
     id: 'shoot-final-project-demo',
@@ -66,22 +160,54 @@ const DEMO_GUIDES = [
     subtitleHighlight: 'bg-rose-500 text-white font-extrabold shadow-sm ring-2 ring-rose-300/60',
     duration: '3:04',
     videoSrc: '/how-shoot-final-project-video-opt.mp4',
+    subtitleSrc: '/subtitles/final.vtt',
     icon: Video,
     iconBg: 'bg-rose-50 text-rose-600 border border-rose-200/80',
-    description: 'Best practices for recording and presenting your final project demonstration video.'
+    description: 'Best practices for recording and presenting your final project demonstration video.',
+    steps: [
+      {
+        step: 1,
+        title: 'Introduction & Self Overview',
+        detail: 'Begin by introducing yourself (Name, Degree/University, and Internship Domain at Launched Global).'
+      },
+      {
+        step: 2,
+        title: 'Explain Folder Structure in VS Code',
+        detail: 'Show your code editor (VS Code) displaying clean project folder structure (e.g. separate HTML, CSS, JavaScript / Backend files).'
+      },
+      {
+        step: 3,
+        title: 'Walk Through Key Code Logic',
+        detail: 'Briefly explain your key functions, logic, responsive navigation, API calls, or form validations.'
+      },
+      {
+        step: 4,
+        title: 'Live Website / Application Demo',
+        detail: 'Switch to the running browser view and demonstrate all working features, UI responsiveness, and real user flows live.'
+      }
+    ]
   }
 ];
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 export default function App() {
   const [playingVideo, setPlayingVideo] = useState(null);
   const [copiedId, setCopiedId] = useState(null);
+  const [isMutedForAutoplay, setIsMutedForAutoplay] = useState(false);
+  const videoRef = useRef(null);
 
-  // Sync state with URL hash on initial load & popstate/hashchange
+  // Sync state with URL pathname (e.g. /shoot-final-project-demo) on load and back/forward navigation
   useEffect(() => {
-    const checkHash = () => {
+    const checkPath = () => {
+      // Remove leading/trailing slashes and get path segment
+      const path = window.location.pathname.replace(/^\/+|\/+$/g, '').trim().toLowerCase();
+      // Backward compatibility: also support #hash if anyone opens an old link
       const hash = window.location.hash.replace('#', '').trim().toLowerCase();
-      if (hash) {
-        const found = DEMO_GUIDES.find(g => g.id === hash);
+      const targetSlug = path || hash;
+
+      if (targetSlug) {
+        const found = DEMO_GUIDES.find(g => g.id === targetSlug);
         if (found) {
           setPlayingVideo(found);
           return;
@@ -90,33 +216,63 @@ export default function App() {
       setPlayingVideo(null);
     };
 
-    checkHash();
-    window.addEventListener('hashchange', checkHash);
-    window.addEventListener('popstate', checkHash);
+    checkPath();
+    window.addEventListener('popstate', checkPath);
+    window.addEventListener('hashchange', checkPath);
     return () => {
-      window.removeEventListener('hashchange', checkHash);
-      window.removeEventListener('popstate', checkHash);
+      window.removeEventListener('popstate', checkPath);
+      window.removeEventListener('hashchange', checkPath);
     };
   }, []);
 
-  // Open video & update URL hash
-  const handleOpenVideo = (guide) => {
-    window.location.hash = guide.id;
-    setPlayingVideo(guide);
-  };
+  // Smart Autoplay: attempts playback with sound; if blocked by browser policy, falls back to muted autoplay
+  useEffect(() => {
+    if (!playingVideo || !videoRef.current) return;
 
-  // Close video & clean URL hash
-  const handleCloseVideo = () => {
-    setPlayingVideo(null);
-    if (window.location.hash) {
-      history.pushState('', document.title, window.location.pathname + window.location.search);
+    const videoEl = videoRef.current;
+    setIsMutedForAutoplay(false);
+    videoEl.muted = false;
+
+    const playPromise = videoEl.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Browser blocked audio autoplay -> fallback to muted autoplay immediately
+        videoEl.muted = true;
+        setIsMutedForAutoplay(true);
+        videoEl.play().catch(() => {});
+      });
+    }
+  }, [playingVideo]);
+
+  // Handle user unmute
+  const handleUnmute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      setIsMutedForAutoplay(false);
     }
   };
 
-  // Copy shareable direct link to clipboard
+  // Open video & update URL to clean slash path e.g. /video-slug
+  const handleOpenVideo = (guide) => {
+    const newPath = `/${guide.id}`;
+    if (window.location.pathname !== newPath) {
+      window.history.pushState({ videoId: guide.id }, '', newPath);
+    }
+    setPlayingVideo(guide);
+  };
+
+  // Close video & reset URL back to root /
+  const handleCloseVideo = () => {
+    setPlayingVideo(null);
+    if (window.location.pathname !== '/') {
+      window.history.pushState({}, '', '/');
+    }
+  };
+
+  // Copy shareable direct slash link (e.g. https://domain.com/shoot-final-project-demo)
   const handleCopyLink = (e, guide) => {
     e.stopPropagation();
-    const url = `${window.location.origin}${window.location.pathname}#${guide.id}`;
+    const url = `${window.location.origin}/${guide.id}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiedId(guide.id);
       setTimeout(() => setCopiedId(null), 2000);
@@ -281,23 +437,28 @@ export default function App() {
       {/* In-Website Fullscreen Video Player Modal */}
       {playingVideo && (
         <div 
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-0 sm:p-4 md:p-6 animate-in fade-in duration-200"
           onClick={handleCloseVideo}
         >
           <div 
-            className="bg-slate-950 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-800 shadow-2xl max-w-4xl w-full flex flex-col"
+            className="bg-slate-950 rounded-none sm:rounded-3xl overflow-hidden border-0 sm:border border-slate-800 shadow-2xl max-w-4xl w-full flex flex-col h-full sm:h-auto sm:max-h-[92vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Top Bar */}
-            <div className="px-4 sm:px-6 py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="w-2 h-2 rounded-full bg-[#E85749] flex-shrink-0 animate-pulse" />
-                <h3 className="text-sm sm:text-base font-bold text-white truncate">
-                  {playingVideo.title} — {playingVideo.subtitle}
-                </h3>
+            <div className="px-3.5 sm:px-6 py-3 sm:py-3.5 bg-slate-900 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
+              <div className="flex items-center gap-2 min-w-0 pr-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#E85749] flex-shrink-0 animate-pulse" />
+                <div className="min-w-0">
+                  <h3 className="text-sm sm:text-base font-bold text-white truncate leading-tight">
+                    {playingVideo.title}
+                  </h3>
+                  <p className="text-[11px] text-slate-400 truncate hidden xs:block">
+                    {playingVideo.subtitle}
+                  </p>
+                </div>
               </div>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 flex-shrink-0">
                 <button
                   type="button"
                   onClick={(e) => handleCopyLink(e, playingVideo)}
@@ -307,7 +468,7 @@ export default function App() {
                   {copiedId === playingVideo.id ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-emerald-400 text-[11px]">Link Copied</span>
+                      <span className="text-emerald-400 text-[11px]">Copied</span>
                     </>
                   ) : (
                     <>
@@ -328,31 +489,96 @@ export default function App() {
               </div>
             </div>
 
-            {/* Native Video Player with Fast-Start range streaming & download disabled */}
-            <div className="relative w-full aspect-video bg-black flex items-center justify-center">
-              <video 
-                key={playingVideo.videoSrc}
-                src={playingVideo.videoSrc} 
-                controls 
-                autoPlay 
-                playsInline
-                preload="metadata"
-                controlsList="nodownload noplaybackrate"
-                disablePictureInPicture
-                onContextMenu={(e) => e.preventDefault()}
-                className="w-full h-full object-contain focus:outline-none"
-              >
-                Your browser does not support HTML5 video playback.
-              </video>
+            {/* Scrollable Container (Video + Steps) */}
+            <div className="overflow-y-auto flex-1 flex flex-col overscroll-contain">
+              {/* Native Video Player with Big Mobile Height, Smart Autoplay & Captions */}
+              <div className="relative w-full bg-black flex items-center justify-center flex-shrink-0 min-h-[240px] xs:min-h-[280px] sm:min-h-[360px] aspect-video">
+                <video 
+                  ref={videoRef}
+                  key={playingVideo.videoSrc}
+                  src={playingVideo.videoSrc} 
+                  controls 
+                  autoPlay 
+                  playsInline
+                  crossOrigin="anonymous"
+                  preload="metadata"
+                  controlsList="nodownload noplaybackrate"
+                  disablePictureInPicture
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="w-full h-full object-contain focus:outline-none"
+                >
+                  {playingVideo.subtitleSrc && (
+                    <track 
+                      key={playingVideo.subtitleSrc}
+                      src={playingVideo.subtitleSrc}
+                      kind="subtitles"
+                      srcLang="en"
+                      label="English (CC)"
+                      default
+                    />
+                  )}
+                  Your browser does not support HTML5 video playback.
+                </video>
+
+                {/* Unmute Overlay Pill if browser forced muted autoplay */}
+                {isMutedForAutoplay && (
+                  <button
+                    type="button"
+                    onClick={handleUnmute}
+                    className="absolute top-3 left-3 sm:top-4 sm:left-4 z-20 inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-full bg-slate-900/90 hover:bg-[#E85749] text-white text-[11px] sm:text-xs font-bold shadow-lg border border-white/20 backdrop-blur-md transition-all animate-bounce cursor-pointer"
+                  >
+                    <VolumeX className="w-3.5 h-3.5 text-[#E85749] group-hover:text-white" />
+                    <span>Tap to Unmute Audio</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Step-by-Step Text Walkthrough & Transcription Section */}
+              {playingVideo.steps && (
+                <div className="p-4 sm:p-6 bg-slate-900/95 border-t border-slate-800/80 flex-1">
+                  <div className="flex items-center justify-between mb-3.5 gap-2">
+                    <div className="flex items-center gap-2">
+                      <ListOrdered className="w-4 h-4 text-[#E85749]" />
+                      <h4 className="text-xs sm:text-sm font-bold text-white tracking-wide uppercase">
+                        Step-by-Step Walkthrough
+                      </h4>
+                    </div>
+                    <span className="text-[10px] sm:text-[11px] font-semibold text-slate-300 bg-slate-800 px-2 py-0.5 rounded-full border border-slate-700/60">
+                      {playingVideo.steps.length} Steps
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-3.5">
+                    {playingVideo.steps.map((st) => (
+                      <div 
+                        key={st.step}
+                        className="bg-slate-950/80 border border-slate-800 rounded-xl p-3.5 hover:border-[#E85749]/50 transition-colors flex gap-3 group"
+                      >
+                        <div className="w-7 h-7 rounded-lg bg-[#E85749]/15 border border-[#E85749]/30 text-[#E85749] font-extrabold text-xs flex items-center justify-center flex-shrink-0 group-hover:bg-[#E85749] group-hover:text-white transition-colors mt-0.5">
+                          {st.step}
+                        </div>
+                        <div className="min-w-0">
+                          <h5 className="text-[13px] sm:text-sm font-bold text-slate-200 group-hover:text-white transition-colors leading-snug mb-1">
+                            {st.title}
+                          </h5>
+                          <p className="text-xs text-slate-400 leading-relaxed">
+                            {st.detail}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Modal Bottom Info */}
-            <div className="px-4 sm:px-6 py-3 bg-slate-900/90 text-xs text-slate-400 flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Volume2 className="w-3.5 h-3.5 text-[#E85749]" />
-                Video with audio walkthrough
+            <div className="px-3.5 sm:px-6 py-2.5 bg-slate-900/95 text-[11px] sm:text-xs text-slate-400 flex items-center justify-between border-t border-slate-800/60 flex-shrink-0">
+              <span className="flex items-center gap-1.5 truncate pr-2">
+                <Volume2 className="w-3.5 h-3.5 text-[#E85749] flex-shrink-0" />
+                <span className="truncate">Audio Walkthrough & Step Guide</span>
               </span>
-              <span>Press <kbd className="px-1.5 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[10px]">ESC</kbd> or click outside to close</span>
+              <span className="flex-shrink-0 text-slate-500 hidden xs:inline">Press ESC to close</span>
             </div>
           </div>
         </div>
@@ -366,7 +592,7 @@ export default function App() {
               <img src="/logo.png" alt="Logo" className="w-full h-full object-contain" />
             </div>
             <span className="font-semibold text-slate-700">Launched Global</span>
-            <span>&copy; {new Date().getFullYear()}</span>
+            <span>&copy; {CURRENT_YEAR}</span>
           </div>
 
           <div className="flex items-center gap-3 sm:gap-4 flex-wrap justify-center">
