@@ -9,12 +9,14 @@ import {
   Globe, 
   Clock,
   X,
-  Volume2
+  Volume2,
+  Copy,
+  Check
 } from 'lucide-react';
 
 const DEMO_GUIDES = [
   {
-    id: 'lms-mentorled',
+    id: 'lms-login-mentor-led-blended',
     title: 'LMS Login Guide',
     subtitle: 'Mentor-LED & Blended',
     subtitleHighlight: 'bg-emerald-500 text-white font-extrabold shadow-sm ring-2 ring-emerald-300/60',
@@ -25,7 +27,7 @@ const DEMO_GUIDES = [
     description: 'Complete walkthrough on logging into the LMS portal specifically for Mentor-LED and Blended batch students.'
   },
   {
-    id: 'lms-selfpaced',
+    id: 'lms-login-self-paced',
     title: 'LMS Login Guide',
     subtitle: 'Self-Paced Track',
     subtitleHighlight: 'bg-blue-600 text-white font-extrabold shadow-sm ring-2 ring-blue-300/60',
@@ -36,7 +38,7 @@ const DEMO_GUIDES = [
     description: 'Step-by-step instructions on accessing and navigating the LMS specifically for Self-Paced learners.'
   },
   {
-    id: 'download-upload-projects',
+    id: 'project-resources-download-upload',
     title: 'Project Resources',
     subtitle: 'Download & Upload',
     subtitleHighlight: 'bg-amber-500 text-white font-extrabold shadow-sm ring-2 ring-amber-300/60',
@@ -47,7 +49,7 @@ const DEMO_GUIDES = [
     description: 'Learn how to properly download starter project files and upload your finished work.'
   },
   {
-    id: 'submit-minor-project',
+    id: 'submission-of-minor-project',
     title: 'Submission of Minor Project',
     subtitle: 'Mentor-LED & Blended',
     subtitleHighlight: 'bg-emerald-500 text-white font-extrabold shadow-sm ring-2 ring-emerald-300/60',
@@ -58,7 +60,7 @@ const DEMO_GUIDES = [
     description: 'Guidance on verifying, preparing, and submitting your minor project deliverables.'
   },
   {
-    id: 'shoot-final-project-video',
+    id: 'shoot-final-project-demo',
     title: 'Shoot Final Project Demo',
     subtitle: 'Video Recording Guide',
     subtitleHighlight: 'bg-rose-500 text-white font-extrabold shadow-sm ring-2 ring-rose-300/60',
@@ -72,11 +74,59 @@ const DEMO_GUIDES = [
 
 export default function App() {
   const [playingVideo, setPlayingVideo] = useState(null);
+  const [copiedId, setCopiedId] = useState(null);
+
+  // Sync state with URL hash on initial load & popstate/hashchange
+  useEffect(() => {
+    const checkHash = () => {
+      const hash = window.location.hash.replace('#', '').trim().toLowerCase();
+      if (hash) {
+        const found = DEMO_GUIDES.find(g => g.id === hash);
+        if (found) {
+          setPlayingVideo(found);
+          return;
+        }
+      }
+      setPlayingVideo(null);
+    };
+
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    window.addEventListener('popstate', checkHash);
+    return () => {
+      window.removeEventListener('hashchange', checkHash);
+      window.removeEventListener('popstate', checkHash);
+    };
+  }, []);
+
+  // Open video & update URL hash
+  const handleOpenVideo = (guide) => {
+    window.location.hash = guide.id;
+    setPlayingVideo(guide);
+  };
+
+  // Close video & clean URL hash
+  const handleCloseVideo = () => {
+    setPlayingVideo(null);
+    if (window.location.hash) {
+      history.pushState('', document.title, window.location.pathname + window.location.search);
+    }
+  };
+
+  // Copy shareable direct link to clipboard
+  const handleCopyLink = (e, guide) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}${window.location.pathname}#${guide.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedId(guide.id);
+      setTimeout(() => setCopiedId(null), 2000);
+    });
+  };
 
   // Close modal when pressing ESC
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') setPlayingVideo(null);
+      if (e.key === 'Escape') handleCloseVideo();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -192,15 +242,34 @@ export default function App() {
                   </p>
                 </div>
 
-                {/* Direct Play Button */}
-                <div className="pt-4 border-t border-slate-100">
+                {/* Direct Play & Copy Link Buttons */}
+                <div className="pt-4 border-t border-slate-100 flex items-center gap-2">
                   <button
                     type="button"
-                    onClick={() => setPlayingVideo(guide)}
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#E85749] hover:bg-[#d44336] text-white font-bold text-xs shadow-xs hover:shadow-md transition-all active:scale-98 cursor-pointer"
+                    onClick={() => handleOpenVideo(guide)}
+                    className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85749] hover:bg-[#d44336] text-white font-bold text-xs shadow-xs hover:shadow-md transition-all active:scale-98 cursor-pointer"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Watch Demo Video</span>
+                    <span>Watch Video</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={(e) => handleCopyLink(e, guide)}
+                    title="Copy direct shareable link for this video"
+                    className="inline-flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs border border-slate-200 transition-all active:scale-95 cursor-pointer flex-shrink-0"
+                  >
+                    {copiedId === guide.id ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-emerald-700 text-[11px]">Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5 text-slate-500" />
+                        <span className="text-[11px] hidden xs:inline">Link</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
@@ -213,7 +282,7 @@ export default function App() {
       {playingVideo && (
         <div 
           className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
-          onClick={() => setPlayingVideo(null)}
+          onClick={handleCloseVideo}
         >
           <div 
             className="bg-slate-950 rounded-2xl sm:rounded-3xl overflow-hidden border border-slate-800 shadow-2xl max-w-4xl w-full flex flex-col"
@@ -228,14 +297,35 @@ export default function App() {
                 </h3>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setPlayingVideo(null)}
-                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer flex-shrink-0 ml-2"
-                aria-label="Close video"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={(e) => handleCopyLink(e, playingVideo)}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition-colors cursor-pointer"
+                  title="Copy video link"
+                >
+                  {copiedId === playingVideo.id ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400 text-[11px]">Link Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span className="text-[11px]">Copy Link</span>
+                    </>
+                  )}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCloseVideo}
+                  className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer flex-shrink-0"
+                  aria-label="Close video"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
             </div>
 
             {/* Native Video Player with Fast-Start range streaming & download disabled */}
